@@ -12,7 +12,7 @@
 import { Component, Vue } from 'vue-property-decorator';
 
 @Component
-export default class Home extends Vue {
+export default class HomeComponent extends Vue {
   private calendar() {
     this.$router.push(
       'calendar/month',
