@@ -8,7 +8,7 @@
 import { Component, Vue, Prop } from 'vue-property-decorator';
 
 @Component
-export default class Home extends Vue {
+export default class CalendarComponent extends Vue {
   @Prop({
     required: true,
     validator: (value: string) => {
