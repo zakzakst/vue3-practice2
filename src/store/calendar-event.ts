@@ -1,15 +1,19 @@
+import '@/plugins/composition-api';
+import { reactive } from '@vue/composition-api';
 import {
   CalendarEventDetail,
   CalendarEventTodayDetail,
-} from './calendar-event.model';
+  NewCalendarEvent,
+} from '@/store/calendar-event.model';
+import { profileStore } from './profile';
 
 export const calendarEventMockData: CalendarEventDetail[] = [
   {
     id: 'a8b2c7c8-ebe4-4c70-a1d0-dbc42ba777d5',
     userId: '66006b29-727e-4ed8-a3c8-95d4438f66d4',
     name: '休み',
-    start: '2020-03-02',
-    end: '2020-03-03',
+    start: '2021-12-26',
+    end: '2021-12-26',
     memo: null,
     shared: true,
   },
@@ -17,8 +21,8 @@ export const calendarEventMockData: CalendarEventDetail[] = [
     id: 'cf41ab17-3674-42aa-a182-9609e10c02a2',
     userId: '66006b29-727e-4ed8-a3c8-95d4438f66d4',
     name: '音楽発表会',
-    start: '2020-03-03 09:00',
-    end: '2020-03-03 12:00',
+    start: '2021-12-28 09:00',
+    end: '2021-12-28 12:00',
     memo: '小学校',
     shared: true,
   },
@@ -26,8 +30,8 @@ export const calendarEventMockData: CalendarEventDetail[] = [
     id: 'dbab8f98-6439-43b7-b8f0-c96b62b72679',
     userId: '2ec8d984-aa5f-4f7e-b1a8-c9e478b54ffe',
     name: 'ショッピング',
-    start: '2020-03-02 13:00',
-    end: '2020-03-02 16:00',
+    start: '2021-12-22 13:00',
+    end: '2021-12-22 16:00',
     memo: null,
     shared: true,
   },
@@ -35,8 +39,8 @@ export const calendarEventMockData: CalendarEventDetail[] = [
     id: 'd5be8374-b82e-4417-99ad-bde160b85b71',
     userId: '2ec8d984-aa5f-4f7e-b1a8-c9e478b54ffe',
     name: '音楽発表会',
-    start: '2020-03-03 09:00',
-    end: '2020-03-03 12:00',
+    start: '2022-01-12 09:00',
+    end: '2022-01-12 12:00',
     memo: null,
     shared: true,
   },
@@ -44,8 +48,8 @@ export const calendarEventMockData: CalendarEventDetail[] = [
     id: '5e061dd1-6fc7-47f1-9d8c-ebc0eb405e15',
     userId: '74ecde04-e90a-4b8a-ad3e-aa4dffac6127',
     name: '早帰り',
-    start: '2020-03-02 12:00',
-    end: '2020-03-02 13:00',
+    start: '2022-01-12 12:00',
+    end: '2022-01-12 13:00',
     memo: null,
     shared: true,
   },
@@ -53,8 +57,8 @@ export const calendarEventMockData: CalendarEventDetail[] = [
     id: 'a6f077d1-8df8-40e1-8749-d5a09fc81003',
     userId: '74ecde04-e90a-4b8a-ad3e-aa4dffac6127',
     name: '音楽発表会',
-    start: '2020-03-03 09:00',
-    end: '2020-03-03 12:00',
+    start: '2022-01-13 09:00',
+    end: '2022-01-13 12:00',
     memo: null,
     shared: true,
   },
@@ -62,8 +66,8 @@ export const calendarEventMockData: CalendarEventDetail[] = [
     id: '456d3a82-3cd3-45f0-9df1-5dbc707d35d7',
     userId: '58e4eb36-2be9-4448-b7f9-4603fd1fd026',
     name: '早帰り',
-    start: '2020-03-02 12:00',
-    end: '2020-03-02 13:00',
+    start: '2021-12-13 12:00',
+    end: '2021-12-14 13:00',
     memo: null,
     shared: true,
   },
@@ -116,3 +120,47 @@ export const todayCalendarEventMockData: CalendarEventTodayDetail[] = [
     shared: true,
   },
 ];
+
+export const calendarEventStore = reactive({
+  calendarEvents: calendarEventMockData,
+});
+
+/**
+ * UUIDを生成します。
+ */
+const generateUuidMock = () => {
+  return 'a8b2c7c8-ebe4-4c70-a1d0-xxxxxxxxxxxx'.replace(/x/g, () =>
+    Math.floor(Math.random() * 16).toString(16),
+  );
+};
+
+/**
+ * カレンダーイベントを追加します。
+ * @param newCalendarEvent 追加するカレンダーイベント
+ */
+export const add = (newCalendarEvent: NewCalendarEvent): void => {
+  newCalendarEvent.id = generateUuidMock();
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  newCalendarEvent.userId = profileStore.profile!.userId;
+  calendarEventStore.calendarEvents.push(
+    newCalendarEvent as CalendarEventDetail,
+  );
+};
+
+/**
+ * カレンダーイベントを更新します。
+ * @param newCalendarEvent 更新するカレンダーイベント
+ */
+export const update = (newCalendarEvent: NewCalendarEvent): void => {
+  const index = calendarEventStore.calendarEvents.findIndex(
+    (event) => event.id === newCalendarEvent.id,
+  );
+
+  if (index === -1) return;
+
+  calendarEventStore.calendarEvents.splice(
+    index,
+    1,
+    newCalendarEvent as CalendarEventDetail,
+  );
+};
