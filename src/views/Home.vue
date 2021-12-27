@@ -1,11 +1,4 @@
 <template>
-  <!-- <div>
-    <h1>ホーム画面</h1>
-    <p><router-link to="sign-in">サインイン</router-link></p>
-    <p><button @click="calendar">カレンダー</button></p>
-    <p><button @click="profile">プロフィール</button></p>
-    <p><button @click="share">共有</button></p>
-  </div> -->
   <v-row align="center" justify="center">
     <v-col cols="12" md="6" class="text-center">
       <v-row class="py-12" align="center" justify="center">
@@ -70,10 +63,6 @@ export default class HomeComponent extends Vue {
    * 本日の日付です。
    */
   private today = parseDate(new Date());
-  // private date = new Date();
-  // private today = {
-  //   weekday: this.date.getDay(),
-  // };
 
   /**
    * カレンダーを共有しているユーザーです。
@@ -129,33 +118,5 @@ export default class HomeComponent extends Vue {
     }
     return getThemeColor(event.userId);
   }
-
-  // private calendar() {
-  //   this.$router.push(
-  //     'calendar/month',
-  //     // eslint-disable-next-line @typescript-eslint/no-empty-function
-  //     () => {},
-  //     // eslint-disable-next-line @typescript-eslint/no-empty-function
-  //     () => {},
-  //   );
-  // }
-  // private profile() {
-  //   this.$router.push(
-  //     'profile',
-  //     // eslint-disable-next-line @typescript-eslint/no-empty-function
-  //     () => {},
-  //     // eslint-disable-next-line @typescript-eslint/no-empty-function
-  //     () => {},
-  //   );
-  // }
-  // private share() {
-  //   this.$router.push(
-  //     'share',
-  //     // eslint-disable-next-line @typescript-eslint/no-empty-function
-  //     () => {},
-  //     // eslint-disable-next-line @typescript-eslint/no-empty-function
-  //     () => {},
-  //   );
-  // }
 }
 </script>
