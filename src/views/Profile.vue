@@ -15,7 +15,7 @@
             prepend-icon="photo_camera"
             label="アバター"
             :error-count="Number.MAX_VALUE"
-            :error-messages="avatorErrors"
+            :error-messages="avatarErrors"
             @change="saveFileContent"
           />
         </v-col>
@@ -162,6 +162,7 @@ import {
 } from '@/store/profile';
 import { validate, ValidationObserver } from 'vee-validate';
 // import axios from 'axios';
+import { ValidationItems } from '@/validation/validation-items';
 
 // TODO: ここのエラー回避方法調べる
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -249,7 +250,7 @@ export default class ProfileComponent extends Vue {
   /**
    * アバターのバリデーションエラーです。
    */
-  private avatorErrors: string[] | null = null;
+  private avatarErrors: string[] | null = null;
 
   /**
    * アバターを保存します。
@@ -257,16 +258,16 @@ export default class ProfileComponent extends Vue {
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
   private saveFileContent(file: File) {
-    this.avatorErrors = null;
+    this.avatarErrors = null;
     if (!file) {
       // ファイル選択ダイアログでキャンセルされた場合などで、
       // ファイルが選択されていない場合は何もしない。
       return;
     }
-    validate(file, this.validationRules.avator, { name: 'アバター' }).then(
+    validate(file, this.validationRules.avatar, { name: 'アバター' }).then(
       (result) => {
         if (!result.valid) {
-          this.avatorErrors = result.errors;
+          this.avatarErrors = result.errors;
           return;
         }
         // バリデーション成功。WebAPIを呼び出してアバター画像を保存する。
@@ -355,16 +356,19 @@ export default class ProfileComponent extends Vue {
     return {
       nickname: {
         required: true,
-        max: 15,
+        // max: 15,
+        ...ValidationItems.nickname,
       },
       userName: {
         required: true,
-        userNameAllowedCharacters: true,
-        max: 15,
+        // userNameAllowedCharacters: true,
+        // max: 15,
+        ...ValidationItems.userName,
       },
-      avator: {
-        ext: ['png', 'jpeg', 'bmp'],
-        size: 300,
+      avatar: {
+        // ext: ['png', 'jpeg', 'bmp'],
+        // size: 300,
+        ...ValidationItems.avatar,
       },
     };
   }
