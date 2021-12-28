@@ -45,7 +45,8 @@
         open-on-hover
       >
         <v-card>
-          <ValidationObserver v-slot="{ invalid }">
+          <!-- <ValidationObserver v-slot="{ invalid }"> -->
+          <ValidationObserver ref="userNameValidationObserver">
             <ValidationProvider
               v-slot="{ errors }"
               name="ユーザー名"
@@ -75,7 +76,7 @@
                 <v-btn
                   color="blue darken-1"
                   text
-                  :disabled="invalid"
+                  :disabled="userNameSaveDisabled"
                   @click="saveUserName"
                 >
                   保存する
@@ -99,7 +100,8 @@
         open-on-hover
       >
         <v-card>
-          <ValidationObserver v-slot="{ invalid }">
+          <!-- <ValidationObserver v-slot="{ invalid }"> -->
+          <ValidationObserver ref="nicknameValidationObserver">
             <ValidationProvider
               v-slot="{ errors }"
               name="ニックネーム"
@@ -130,7 +132,7 @@
               <v-btn
                 color="blue darken-1"
                 text
-                :disabled="invalid"
+                :disabled="nicknameSaveDisabled"
                 @click="saveNickname"
               >
                 保存する
@@ -150,17 +152,56 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 import {
   profileStore,
   updateThemeColor,
   updateUserName,
   updateNickname,
 } from '@/store/profile';
-import { validate } from 'vee-validate';
+import { validate, ValidationObserver } from 'vee-validate';
+
+// TODO: ここのエラー回避方法調べる
+// eslint-disable-next-line @typescript-eslint/ban-types
+type Refs<T extends object> = Vue['$refs'] & T;
 
 @Component
 export default class ProfileComponent extends Vue {
+  $refs!: Refs<{
+    userNameValidationObserver: InstanceType<typeof ValidationObserver>;
+    nicknameValidationObserver: InstanceType<typeof ValidationObserver>;
+  }>;
+
+  /**
+   * 新しいユーザー名の保存が無効かどうかを判断します。
+   * 新しいユーザー名の値が変更されるたびに判定を行います。
+   */
+  @Watch('newUserName')
+  private validateUserName() {
+    this.$nextTick(() => {
+      this.$refs.userNameValidationObserver
+        .validate({ silent: true })
+        .then((result) => {
+          this.userNameSaveDisabled = !result;
+        });
+    });
+  }
+
+  /**
+   * 新しいニックネームの保存が無効かどうかを判断します。
+   * 新しいニックネームの値が変更されるたびに判定を行います。
+   */
+  @Watch('newNickName')
+  private validateNickname() {
+    this.$nextTick(() => {
+      this.$refs.nicknameValidationObserver
+        .validate({ silent: true })
+        .then((result) => {
+          this.nicknameSaveDisabled = !result;
+        });
+    });
+  }
+
   /**
    * プロフィール
    */
@@ -176,6 +217,16 @@ export default class ProfileComponent extends Vue {
    * 新しいニックネーム
    */
   private newNickname: string | null = null;
+
+  /**
+   * 新しいユーザー名の保存が無効であるかどうかを示す値です。
+   */
+  private userNameSaveDisabled = false;
+
+  /**
+   * 新しいニックネームの保存が無効であるかどうかを示す値です。
+   */
+  private nicknameSaveDisabled = false;
 
   /**
    * 新しいテーマカラー
