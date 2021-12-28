@@ -156,7 +156,8 @@ import { Component, Vue, Watch } from 'vue-property-decorator';
 import {
   profileStore,
   updateThemeColor,
-  updateUserName,
+  // updateUserName,
+  updateUserNameAsync,
   updateNickname,
 } from '@/store/profile';
 import { validate, ValidationObserver } from 'vee-validate';
@@ -300,13 +301,24 @@ export default class ProfileComponent extends Vue {
   /**
    * ユーザー名を保存します。
    */
-  private saveUserName() {
-    if (this.newUserName) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      // profileStore.profile!.userName = this.newUserName;
-      updateUserName(this.newUserName);
+  // private saveUserName() {
+  //   if (this.newUserName) {
+  //     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  //     // profileStore.profile!.userName = this.newUserName;
+  //     updateUserName(this.newUserName);
+  //   }
+  //   this.isOpenEditUserNameDialog = false;
+  // }
+  private async saveUserName() {
+    try {
+      if (this.newUserName) {
+        await updateUserNameAsync(this.newUserName);
+      }
+      this.isOpenEditUserNameDialog = false;
+    } catch (error) {
+      // console.log('error: ', error.response?.data?.title);
+      console.log('error: ', error);
     }
-    this.isOpenEditUserNameDialog = false;
   }
 
   /**

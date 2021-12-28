@@ -51,12 +51,29 @@ export const updateThemeColor = (themeColor: string): void => {
 /**
  * サインインします。
  */
-export const signInAsync = async(): Promise<void> => {
+export const signInAsync = async (): Promise<void> => {
   // ここに外部認証に関連した実装が必要
   // eslint-disable-next-line no-useless-catch
   try {
     const response = await axios.get<Profile>('profile');
     profileStore.profile = response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+/**
+ * ユーザー名を更新します。
+ * @param userName ユーザー名
+ */
+export const updateUserNameAsync = async (userName: string): Promise<void> => {
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const profile = profileStore.profile!;
+  const data = { userName: userName };
+  // eslint-disable-next-line no-useless-catch
+  try {
+    await axios.patch('profile', data);
+    profile.userName = userName;
   } catch (error) {
     throw error;
   }
