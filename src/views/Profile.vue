@@ -14,6 +14,8 @@
             placeholder="画像を選択してください"
             prepend-icon="photo_camera"
             label="アバター"
+            :error-count="Number.MAX_VALUE"
+            :error-messages="avatorErrors"
             @change="saveFileContent"
           />
         </v-col>
@@ -155,6 +157,7 @@ import {
   updateUserName,
   updateNickname,
 } from '@/store/profile';
+import { validate } from 'vee-validate';
 
 @Component
 export default class ProfileComponent extends Vue {
@@ -191,11 +194,32 @@ export default class ProfileComponent extends Vue {
   private isOpenEditNicknameDialog = false;
 
   /**
+   * アバターのバリデーションエラーです。
+   */
+  private avatorErrors: string[] | null = null;
+
+  /**
    * アバターを保存します。
    * @param file アバターの画像ファイル
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
-  private saveFileContent(file: File) {}
+  private saveFileContent(file: File) {
+    this.avatorErrors = null;
+    if (!file) {
+      // ファイル選択ダイアログでキャンセルされた場合などで、
+      // ファイルが選択されていない場合は何もしない。
+      return;
+    }
+    validate(file, this.validationRules.avator, { name: 'アバター' }).then(
+      (result) => {
+        if (!result.valid) {
+          this.avatorErrors = result.errors;
+          return;
+        }
+        // バリデーション成功。WebAPIを呼び出してアバター画像を保存する。
+      },
+    );
+  }
 
   /**
    * テーマカラーを保存します。
@@ -273,6 +297,10 @@ export default class ProfileComponent extends Vue {
         required: true,
         userNameAllowedCharacters: true,
         max: 15,
+      },
+      avator: {
+        ext: ['png', 'jpeg', 'bmp'],
+        size: 300,
       },
     };
   }
