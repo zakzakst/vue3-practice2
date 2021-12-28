@@ -28,3 +28,9 @@ Vue.component('ValidationProvider', ValidationProvider);
 // バリデーションルールの登録
 extend('required', required);
 extend('max', max);
+extend('userNameAllowedCharacters', {
+  message: '{_field_}は英字、数字、「_」のみ使用できます。',
+  validate: (value) => {
+    return /^[0-9A-z_]*$/i.test(value);
+  },
+});
