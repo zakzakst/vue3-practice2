@@ -41,16 +41,25 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { profileStore, profileMockData } from '@/store/profile';
+// import { profileStore, profileMockData } from '@/store/profile';
+import { signInAsync } from '@/store/profile';
 
 @Component
 export default class SignInComponent extends Vue {
   /**
    * サインインします。
    */
-  private signIn() {
-    profileStore.profile = profileMockData;
-    this.$router.push('/');
+  // private signIn() {
+  //   profileStore.profile = profileMockData;
+  //   this.$router.push('/');
+  // }
+  private async signIn() {
+    try {
+      await signInAsync();
+      this.$router.push('/');
+    } catch (error) {
+      console.log('error: ', error);
+    }
   }
 }
 </script>

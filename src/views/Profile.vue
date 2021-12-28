@@ -160,6 +160,7 @@ import {
   updateNickname,
 } from '@/store/profile';
 import { validate, ValidationObserver } from 'vee-validate';
+// import axios from 'axios';
 
 // TODO: ここのエラー回避方法調べる
 // eslint-disable-next-line @typescript-eslint/ban-types
