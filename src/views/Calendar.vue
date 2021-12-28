@@ -314,6 +314,7 @@ type Refs<T extends object> = Vue['$refs'] & T;
 export default class CalendarComponent extends Vue {
   $refs!: Refs<{
     calendar: {
+      scrollToTime(time: string): void;
       prev(): void;
       next(): void;
     };
@@ -721,6 +722,30 @@ export default class CalendarComponent extends Vue {
     this.clearPickerBindValue();
     this.isOpenEventDialog = false;
   }
+
+  /**
+   * `updated`ライフサイクルです。
+   */
+  private updated() {
+    if (this.type === 'month') {
+      return;
+    }
+    this.$nextTick(() => {
+      this.$refs.calendar.scrollToTime('07:00');
+    });
+  }
+
+  /**
+   * `mounted`ライフサイクルです。
+   */
+  // private mounted() {
+  //   if (this.type === 'month') {
+  //     return;
+  //   }
+  //   this.$nextTick(() => {
+  //     this.$refs.calendar.scrollToTime('07:00');
+  //   });
+  // }
 }
 </script>
 
