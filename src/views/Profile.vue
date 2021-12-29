@@ -153,16 +153,17 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
-import {
-  profileStore,
-  updateThemeColor,
-  // updateUserName,
-  updateUserNameAsync,
-  updateNickname,
-} from '@/store/profile';
+// import {
+//   profileStore,
+//   updateThemeColor,
+//   // updateUserName,
+//   updateUserNameAsync,
+//   updateNickname,
+// } from '@/store/profile';
 import { validate, ValidationObserver } from 'vee-validate';
 // import axios from 'axios';
 import { ValidationItems } from '@/validation/validation-items';
+import { profileStore } from '@/store/profile/profile';
 
 // TODO: ここのエラー回避方法調べる
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -281,7 +282,7 @@ export default class ProfileComponent extends Vue {
   private saveThemeColor() {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     // profileStore.profile!.themeColor = this.newThemeColor;
-    updateThemeColor(this.newThemeColor);
+    profileStore.updateThemeColorAsync(this.newThemeColor);
   }
 
   /**
@@ -313,7 +314,7 @@ export default class ProfileComponent extends Vue {
   private async saveUserName() {
     try {
       if (this.newUserName) {
-        await updateUserNameAsync(this.newUserName);
+        await profileStore.updateUserNameAsync(this.newUserName);
       }
       this.isOpenEditUserNameDialog = false;
     } catch (error) {
@@ -344,7 +345,7 @@ export default class ProfileComponent extends Vue {
     if (this.newNickname) {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       // profileStore.profile!.nickname = this.newNickname;
-      updateNickname(this.newNickname);
+      profileStore.updateNicknameAsync(this.newNickname);
     }
     this.isOpenEditNicknameDialog = false;
   }

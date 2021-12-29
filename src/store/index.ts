@@ -11,4 +11,6 @@ Vue.use(Vuex);
 //   actions: {},
 //   modules: {},
 // });
-export default new Vuex.Store({});
+export default new Vuex.Store({
+  strict: true,
+});

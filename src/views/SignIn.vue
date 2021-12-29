@@ -42,7 +42,8 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 // import { profileStore, profileMockData } from '@/store/profile';
-import { signInAsync } from '@/store/profile';
+// import { signInAsync } from '@/store/profile';
+import { profileStore } from '@/store/profile/profile';
 
 @Component
 export default class SignInComponent extends Vue {
@@ -55,7 +56,8 @@ export default class SignInComponent extends Vue {
   // }
   private async signIn() {
     try {
-      await signInAsync();
+      // await signInAsync();
+      await profileStore.signInAsync();
       this.$router.push('/');
     } catch (error) {
       console.log('error: ', error);

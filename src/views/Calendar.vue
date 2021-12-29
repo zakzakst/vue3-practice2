@@ -304,7 +304,7 @@ import {
 import { NewCalendarEvent } from '@/store/calendar-event.model';
 import { calendarEventStore, add, update } from '@/store/calendar-event';
 import { sharedUserStore, getThemeColor } from '@/store/shared-user';
-import { profileStore } from '@/store/profile';
+import { profileStore } from '@/store/profile/profile';
 
 // TODO: ここのエラー回避方法調べる
 // eslint-disable-next-line @typescript-eslint/ban-types
