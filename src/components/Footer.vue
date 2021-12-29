@@ -56,7 +56,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { profileStore } from '@/store/profile';
+import { profileStore } from '@/store/profile/profile';
 
 @Component
 export default class FooterComponent extends Vue {
@@ -84,7 +84,8 @@ export default class FooterComponent extends Vue {
    * サインインしているユーザー
    */
   private get signInUser() {
-    return profileStore.profile;
+    // return profileStore.profile;
+    return profileStore.getProfile;
   }
 
   /**
@@ -127,7 +128,8 @@ export default class FooterComponent extends Vue {
    * サインアウトします。
    */
   private signOut() {
-    profileStore.profile = null;
+    // profileStore.profile = null;
+    profileStore.clearProfile();
     this.routerPush('/sign-in');
   }
 }
