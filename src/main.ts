@@ -11,6 +11,14 @@ import '@/plugins/composition-api';
 
 Vue.config.productionTip = false;
 
+// import { myExample } from '@/directives/my-example';
+// Vue.directive('myExample', myExample);
+
+import * as directives from '@/directives';
+for (const [key, directive] of Object.entries(directives)) {
+  Vue.directive(key, directive);
+}
+
 new Vue({
   router,
   store,

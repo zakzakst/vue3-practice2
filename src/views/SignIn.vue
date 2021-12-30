@@ -1,7 +1,11 @@
 <template>
   <v-row align="center" justify="center">
     <v-col cols="12" md="6" class="text-center">
-      <v-text-field v-my-example="exampleHandler" />
+      <!-- <div v-if="foo">
+        <v-text-field v-my-example="exampleHandler" />
+      </div>
+      <p v-text="bar" /> -->
+      <v-text-field v-my-example:foo.bar.baz="exampleHandler" />
       <p class="display-1 py-12">サンプルアプリケーションにサインインする</p>
       <div>
         <v-btn
@@ -53,6 +57,9 @@ import { myExample } from '@/directives/my-example';
   },
 })
 export default class SignInComponent extends Vue {
+  private foo: string | null = null;
+  private bar: string | null = null;
+
   private exampleHandler(event: Event) {
     console.log(
       'event.target.value: ',
