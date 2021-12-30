@@ -1,6 +1,7 @@
 <template>
   <v-row align="center" justify="center">
     <v-col cols="12" md="6" class="text-center">
+      <v-text-field v-my-example="exampleHandler" />
       <p class="display-1 py-12">サンプルアプリケーションにサインインする</p>
       <div>
         <v-btn
@@ -44,9 +45,21 @@ import { Component, Vue } from 'vue-property-decorator';
 // import { profileStore, profileMockData } from '@/store/profile';
 // import { signInAsync } from '@/store/profile';
 import { profileStore } from '@/store/profile/profile';
+import { myExample } from '@/directives/my-example';
 
-@Component
+@Component({
+  directives: {
+    myExample,
+  },
+})
 export default class SignInComponent extends Vue {
+  private exampleHandler(event: Event) {
+    console.log(
+      'event.target.value: ',
+      (event.target as HTMLInputElement).value,
+    );
+  }
+
   /**
    * サインインします。
    */
