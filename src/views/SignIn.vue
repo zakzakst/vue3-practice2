@@ -6,7 +6,7 @@
       </div>
       <p v-text="bar" /> -->
       <!-- <v-text-field v-my-example:foo.bar.baz="exampleHandler" /> -->
-      <my-example v-model="parentValue" />
+      <my-example v-model="parentValue" @custom-event="customEventHandler" />
       <p class="display-1 py-12">サンプルアプリケーションにサインインする</p>
       <div>
         <v-btn
@@ -86,6 +86,10 @@ export default class SignInComponent extends Vue {
     } catch (error) {
       console.log('error: ', error);
     }
+  }
+
+  private customEventHandler(value: number) {
+    console.log('value: ', value);
   }
 }
 </script>

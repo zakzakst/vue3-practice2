@@ -1,11 +1,12 @@
 <template>
   <div>
     <v-text-field v-model="computedFooValue" />
+    <v-btn @click="click">click!</v-btn>
   </div>
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator';
+import { Vue, Component, Prop, Emit } from 'vue-property-decorator';
 
 export interface MyExampleComponentParameter {
   foo: string;
@@ -26,6 +27,11 @@ export default class MyExample extends Vue {
       foo: value,
       bar: this.value.bar,
     });
+  }
+
+  @Emit('custom-event')
+  private click() {
+    return 100;
   }
 }
 </script>
