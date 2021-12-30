@@ -5,7 +5,8 @@
         <v-text-field v-my-example="exampleHandler" />
       </div>
       <p v-text="bar" /> -->
-      <v-text-field v-my-example:foo.bar.baz="exampleHandler" />
+      <!-- <v-text-field v-my-example:foo.bar.baz="exampleHandler" /> -->
+      <my-example v-model="parentValue" />
       <p class="display-1 py-12">サンプルアプリケーションにサインインする</p>
       <div>
         <v-btn
@@ -49,23 +50,26 @@ import { Component, Vue } from 'vue-property-decorator';
 // import { profileStore, profileMockData } from '@/store/profile';
 // import { signInAsync } from '@/store/profile';
 import { profileStore } from '@/store/profile/profile';
-import { myExample } from '@/directives/my-example';
+// import { myExample } from '@/directives/my-example';
+import { MyExampleComponentParameter } from '@/components/MyExample.vue';
 
-@Component({
-  directives: {
-    myExample,
-  },
-})
+// @Component({
+//   directives: {
+//     myExample,
+//   },
+// })
+@Component
 export default class SignInComponent extends Vue {
-  private foo: string | null = null;
-  private bar: string | null = null;
+  // private foo: string | null = null;
+  // private bar: string | null = null;
+  private parentValue: MyExampleComponentParameter = { foo: 'foo', bar: 'bar' };
 
-  private exampleHandler(event: Event) {
-    console.log(
-      'event.target.value: ',
-      (event.target as HTMLInputElement).value,
-    );
-  }
+  // private exampleHandler(event: Event) {
+  //   console.log(
+  //     'event.target.value: ',
+  //     (event.target as HTMLInputElement).value,
+  //   );
+  // }
 
   /**
    * サインインします。
