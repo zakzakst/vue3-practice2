@@ -71,6 +71,14 @@ export default class SignInComponent extends Vue {
   // private bar: string | null = null;
   private parentValue: MyExampleComponentParameter = { foo: 'foo', bar: 'bar' };
 
+  private created() {
+    console.log('親コンポーネント: created');
+  }
+
+  private mounted() {
+    console.log('親コンポーネント: mounted');
+  }
+
   // private exampleHandler(event: Event) {
   //   console.log(
   //     'event.target.value: ',

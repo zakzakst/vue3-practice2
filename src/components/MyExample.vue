@@ -35,6 +35,14 @@ export default class MyExample extends Vue {
     });
   }
 
+  private created() {
+    console.log('子コンポーネント: created');
+  }
+
+  private mounted() {
+    console.log('子コンポーネント: mounted');
+  }
+
   @Emit('custom-event')
   private click() {
     return 100;
