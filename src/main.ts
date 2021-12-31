@@ -10,6 +10,8 @@ import 'material-design-icons-iconfont/dist/material-design-icons.css';
 import '@/plugins/composition-api';
 import * as directives from '@/directives';
 import * as components from '@/components';
+import '@/plugins/vuetify-toast-snackbar';
+import '@/plugins/vuetify-dialog';
 
 Vue.config.productionTip = false;
 
