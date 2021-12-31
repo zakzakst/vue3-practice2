@@ -15,7 +15,7 @@ const profile = {
         title: 'このユーザー名は既に使われています。',
       });
     }
-    return res.status(200).json();
+    return res.status(401).json();
   },
 };
 
