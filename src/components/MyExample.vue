@@ -10,7 +10,8 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop, Emit } from 'vue-property-decorator';
+import { Component, Prop, Emit, Mixins } from 'vue-property-decorator';
+import MixinExample from '@/mixins/mixin-example';
 
 export interface MyExampleComponentParameter {
   foo: string;
@@ -18,9 +19,9 @@ export interface MyExampleComponentParameter {
 }
 
 @Component({
-  // inheritAttrs: false,
+  inheritAttrs: false,
 })
-export default class MyExample extends Vue {
+export default class MyExample extends Mixins(MixinExample) {
   @Prop({ required: true })
   private value!: MyExampleComponentParameter;
 
@@ -35,13 +36,13 @@ export default class MyExample extends Vue {
     });
   }
 
-  private created() {
-    console.log('子コンポーネント: created');
-  }
+  // private created() {
+  //   console.log('子コンポーネント: created');
+  // }
 
-  private mounted() {
-    console.log('子コンポーネント: mounted');
-  }
+  // private mounted() {
+  //   console.log('子コンポーネント: mounted');
+  // }
 
   @Emit('custom-event')
   private click() {
