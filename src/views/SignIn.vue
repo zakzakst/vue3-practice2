@@ -6,7 +6,14 @@
       </div>
       <p v-text="bar" /> -->
       <!-- <v-text-field v-my-example:foo.bar.baz="exampleHandler" /> -->
-      <my-example v-model="parentValue" @custom-event="customEventHandler" />
+      <my-example
+        :value="parentValue"
+        counter="10"
+        clearable
+        style="background-color: red"
+        @click:clear="customEventHandler"
+        @custom-event="customEventHandler"
+      />
       <p class="display-1 py-12">サンプルアプリケーションにサインインする</p>
       <div>
         <v-btn
