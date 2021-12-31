@@ -6,7 +6,14 @@
       </div>
       <p v-text="bar" /> -->
       <!-- <v-text-field v-my-example:foo.bar.baz="exampleHandler" /> -->
-      <my-example v-model="parentValue" />
+      <my-example
+        :value="parentValue"
+        counter="10"
+        clearable
+        style="background-color: red"
+        @click:clear="customEventHandler"
+        @custom-event="customEventHandler"
+      />
       <p class="display-1 py-12">サンプルアプリケーションにサインインする</p>
       <div>
         <v-btn
@@ -64,6 +71,14 @@ export default class SignInComponent extends Vue {
   // private bar: string | null = null;
   private parentValue: MyExampleComponentParameter = { foo: 'foo', bar: 'bar' };
 
+  private created() {
+    console.log('親コンポーネント: created');
+  }
+
+  private mounted() {
+    console.log('親コンポーネント: mounted');
+  }
+
   // private exampleHandler(event: Event) {
   //   console.log(
   //     'event.target.value: ',
@@ -86,6 +101,10 @@ export default class SignInComponent extends Vue {
     } catch (error) {
       console.log('error: ', error);
     }
+  }
+
+  private customEventHandler(value: number) {
+    console.log('value: ', value);
   }
 }
 </script>
